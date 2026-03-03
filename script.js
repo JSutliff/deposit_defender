@@ -170,9 +170,6 @@ function handleAnswer(value, nextId) {
   }
 }
 
-// 6. RESULTS (The Fix)
-// ... (Keep sections 1 through 5 as they are)
-
 // 6. RESULTS
 function showResults() {
   document.getElementById("quiz-container").classList.add("hidden");
@@ -223,10 +220,9 @@ function showResults() {
   const dateOptions = { year: "numeric", month: "long", day: "numeric" };
   const todayFormatted = new Date().toLocaleDateString("en-US", dateOptions);
 
-  // Format the Move-out date (converts YYYY-MM-DD to Month Day, Year)
   let moveOutFormatted = "[Date]";
   if (answers.q1_possession) {
-    const [y, m, d] = answers.q1_possession.split("-");
+    const [y, m, d] = answers.q1_possession.split("-").map(Number);
     moveOutFormatted = new Date(y, m - 1, d).toLocaleDateString(
       "en-US",
       dateOptions,
@@ -238,21 +234,20 @@ function showResults() {
     letterSection.classList.remove("hidden");
     const vText = violations.map((v) => `* ${v}`).join("\n");
 
-    letterText.value = `To: [Landlord Name]\nFrom: [Your Name]\nDate: ${todayFormatted}\n\nRE: Security Deposit Demand (CA Civil Code §1950.5)\n\nDear [Landlord Name],\n\nI am writing regarding the deposit for the property at [Previous Address]. Possession was returned on ${moveOutFormatted}. The following violations were noted:\n\n${vText}\n\nPlease return the full amount of $[Amount] within 10 days. If not resolved, I will seek all legal remedies including statutory damages under §1950.5(l).\n\nSincerely,\n\n[Your Name]`;
+    letterText.value = `To: [Landlord Name]\nFrom: [Your Name]\nDate: ${todayFormatted}\n\nRE: Security Deposit Demand (CA Civil Code §1950.5)\n\nDear [Landlord Name],\n\nI am writing regarding the security deposit for the property at [Previous Address]. Possession was returned on ${moveOutFormatted}.\n\nUnder California Civil Code §1950.5, the following procedural violations were noted:\n\n${vText}\n\nPlease return the full amount of $[Amount] within 10 days. If not resolved, I will seek all legal remedies including statutory damages under §1950.5(l).\n\nSincerely,\n\n[Your Name]`;
   } else {
     flagsDiv.innerHTML =
-      "<p>No significant procedural violations detected. You can still dispute the validity of charges if they seem excessive.</p>";
+      "<p style='padding:1rem; color:#64748b;'>No procedural violations detected. You can still dispute deductions if they are for 'normal wear and tear.'</p>";
     letterSection.classList.add("hidden");
   }
-  window.scrollTo(0, 0);
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 // 7. UTILS
 function copyLetter() {
   const text = document.getElementById("letter-text");
   text.select();
-  text.setSelectionRange(0, 99999); // Mobile compatibility
-
+  text.setSelectionRange(0, 99999);
   try {
     navigator.clipboard.writeText(text.value);
     const status = document.getElementById("copy-status");
