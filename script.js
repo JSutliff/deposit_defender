@@ -236,8 +236,7 @@ function showResults() {
 
     letterText.value = `To: [Landlord Name]\nFrom: [Your Name]\nDate: ${todayFormatted}\n\nRE: Security Deposit Demand (CA Civil Code §1950.5)\n\nDear [Landlord Name],\n\nI am writing regarding the security deposit for the property at [Previous Address]. Possession was returned on ${moveOutFormatted}.\n\nUnder California Civil Code §1950.5, the following procedural violations were noted:\n\n${vText}\n\nPlease return the full amount of $[Amount] within 10 days. If not resolved, I will seek all legal remedies including statutory damages under §1950.5(l).\n\nSincerely,\n\n[Your Name]`;
   } else {
-    flagsDiv.innerHTML =
-      "<p style='padding:1rem; color:#64748b;'>No procedural violations detected. You can still dispute deductions if they are for 'normal wear and tear.'</p>";
+    flagsDiv.innerHTML = `<div class="success-message">No procedural violations detected. You can still dispute deductions if they are for "normal wear and tear."</div>`;
     letterSection.classList.add("hidden");
   }
   window.scrollTo({ top: 0, behavior: "smooth" });

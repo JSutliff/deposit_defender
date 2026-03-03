@@ -11,8 +11,34 @@
   </head>
   <body>
     <div class="app-container">
-      <header>
-        <h1>Deposit Defender</h1>
+      <header class="app-header">
+        <div class="logo-container">
+          <div class="logo-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2L3 7V12C3 17.5 7 21 12 22C17 21 21 17.5 21 12V7L12 2Z"
+                stroke="#0A787A"
+                stroke-width="2"
+                fill="white"
+              />
+              <path
+                d="M8 12L11 15L16 9"
+                stroke="#62A4F2"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="logo-text">
+            <h1>Deposit Defender</h1>
+            <span class="sub-brand">CALIFORNIA</span>
+          </div>
+        </div>
         <div id="progress-bar-container" class="hidden">
           <div id="progress-bar"></div>
         </div>
@@ -85,7 +111,11 @@
               >
                 Copy to Clipboard
               </button>
-              <button onclick="location.reload()" style="flex: 1">
+              <button
+                onclick="location.reload()"
+                class="secondary-btn"
+                style="flex: 1"
+              >
                 Start Over
               </button>
             </div>
