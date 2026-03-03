@@ -1,0 +1,85 @@
+:root {
+    --primary: #2563eb;
+    --bg: #f8fafc;
+    --text: #1e293b;
+    --card: #ffffff;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.app-container {
+    max-width: 500px;
+    width: 100%;
+}
+
+#progress-bar-container {
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+}
+
+#progress-bar {
+    height: 100%;
+    background: var(--primary);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+#question-card {
+    background: var(--card);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.microcopy {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin-bottom: 0.5rem;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+button:hover {
+    background: #f1f5f9;
+    border-color: var(--primary);
+}
+
+.hidden { display: none; }
+
+.flag-item {
+    background: #fff1f2;
+    border-left: 4px solid #e11d48;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+textarea {
+    resize: vertical;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    background: #fdfdfd;
+}
+
+#copy-btn:active {
+    transform: scale(0.98);
+}

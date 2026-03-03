@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CA Deposit Check MVP</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <header>
+        <h1>Security Deposit Assistant</h1>
+        <div id="progress-bar-container">
+          <div id="progress-bar"></div>
+        </div>
+      </header>
+
+      <main id="quiz-container">
+        <div id="question-card">
+          <p class="microcopy" id="purpose-text"></p>
+          <h2 id="question-text">Loading...</h2>
+          <div id="answer-options"></div>
+        </div>
+      </main>
+
+      <section id="results-container" class="hidden">
+        <h2>Compliance Summary</h2>
+        <div id="flags-list"></div>
+        <p class="disclaimer">
+          Informational only. Not legal advice per Civil Code §1950.5.
+        </p>
+        <button onclick="location.reload()">Start Over</button>
+      </section>
+
+      <div id="letter-section" class="hidden">
+        <h3>Generated Demand Letter</h3>
+        <p class="microcopy">
+          Review and edit the details below before sending.
+        </p>
+        <textarea
+          id="letter-text"
+          rows="15"
+          style="
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            font-family: inherit;
+          "
+        ></textarea>
+        <button
+          id="copy-btn"
+          onclick="copyLetter()"
+          style="background: var(--primary); color: white; margin-top: 10px"
+        >
+          Copy to Clipboard
+        </button>
+        <p
+          id="copy-status"
+          class="microcopy"
+          style="color: green; margin-top: 5px"
+        ></p>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
