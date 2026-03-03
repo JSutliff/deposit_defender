@@ -3,25 +3,72 @@
  * CA Civil Code § 1950.5 Compliance
  */
 
+// Ensure mobile browsers bind the event correctly
+document.addEventListener("DOMContentLoaded", () => {
+  const checkbox = document.getElementById("legal-agree");
+  const startBtn = document.getElementById("start-btn");
+
+  if (checkbox && startBtn) {
+    // 1. Toggle disabled state
+    checkbox.addEventListener("change", function () {
+      startBtn.disabled = !this.checked;
+    });
+
+    // 2. Mobile-friendly click handler
+    startBtn.addEventListener("click", function (e) {
+      // Logic to ensure the button is actually enabled before running
+      if (!this.disabled) {
+        startApp();
+      }
+    });
+  }
+});
+
+// Update your startApp function to scroll to the top
+function startApp() {
+  document.getElementById("landing-page").classList.add("hidden");
+  document.getElementById("quiz-container").classList.remove("hidden");
+  document.getElementById("progress-bar-container").classList.remove("hidden");
+
+  // CRITICAL FOR MOBILE: UI often stays scrolled down after clicking
+  window.scrollTo(0, 0);
+
+  renderQuestion();
+}
+
 // 1. APP STATE
 let currentStep = 0;
 const answers = {};
 
-// 2. INITIALIZATION & SPLASH SCREEN
-const checkbox = document.getElementById("legal-agree");
-const startBtn = document.getElementById("start-btn");
+// 2. MOBILE-FRIENDLY INITIALIZATION
+document.addEventListener("DOMContentLoaded", () => {
+  const checkbox = document.getElementById("legal-agree");
+  const startBtn = document.getElementById("start-btn");
 
-// Listen for the legal disclaimer agreement
-if (checkbox) {
-  checkbox.addEventListener("change", function () {
-    startBtn.disabled = !this.checked;
-  });
-}
+  // Check if elements exist to avoid null errors
+  if (checkbox && startBtn) {
+    // Enable/Disable logic
+    checkbox.addEventListener("change", function () {
+      startBtn.disabled = !this.checked;
+    });
+
+    // Touch-friendly Click Listener
+    startBtn.addEventListener("click", (e) => {
+      e.preventDefault(); // Prevents double-firing on some mobile browsers
+      if (!startBtn.disabled) {
+        startApp();
+      }
+    });
+  }
+});
 
 function startApp() {
   document.getElementById("landing-page").classList.add("hidden");
   document.getElementById("quiz-container").classList.remove("hidden");
   document.getElementById("progress-bar-container").classList.remove("hidden");
+
+  // Jump to top of page on mobile so they see the first question
+  window.scrollTo(0, 0);
   renderQuestion();
 }
 

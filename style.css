@@ -148,3 +148,25 @@ hr {
     border-top: 1px solid #cbd5e1;
     margin-bottom: 1.5rem;
 }
+
+/* Better mobile touch targets */
+.agreement-box {
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
+    cursor: pointer; /* Makes the whole box feel clickable */
+}
+
+#legal-agree {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    flex-shrink: 0; /* Prevents checkbox from squishing */
+}
+
+#start-btn {
+    height: 55px; /* Larger tap target for thumbs */
+    font-weight: bold;
+    font-size: 1.1rem;
+    -webkit-tap-highlight-color: transparent; /* Removes the blue box on tap */
+}
