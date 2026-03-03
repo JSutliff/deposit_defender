@@ -1,17 +1,13 @@
-/* * DEPOSIT DEFENDER - Brand Stylesheet 
- * Palette: Teal (#0A787A), Sky Blue (#62A4F2), Slate (#1E293B)
- */
+/* Refactored CSS for better readability and maintainability */
 
+/* --- GLOBAL STYLES --- */
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
 
 :root {
   --primary-teal: #0a787a;
-  --action-blue: #62a4f2;
-  --bg-light: #f8fafc;
+  --action-blue: #3b82f6;
+  --alert-red: #ef4444;
   --text-slate: #1e293b;
-  --text-muted: #64748b;
-  --border-gray: #e2e8f0;
-  --white: #ffffff;
 }
 
 * {
@@ -27,13 +23,6 @@ body {
   display: flex;
   justify-content: center;
   line-height: 1.6;
-}
-
-.app-container {
-  width: 100%;
-  max-width: 480px; /* Optimal mobile-first width */
-  padding: 20px;
-  min-height: 100vh;
 }
 
 /* --- HEADER & LOGO --- */
@@ -96,6 +85,7 @@ body {
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
   border: 1px solid var(--border-gray);
   margin-bottom: 20px;
+  animation: fadeIn 0.4s ease-out;
 }
 
 h2 {
@@ -149,6 +139,29 @@ h2 {
   transform: scale(0.98);
 }
 
+.secondary-btn {
+  width: 100%;
+  padding: 18px;
+  border-radius: 16px;
+  border: 2px solid var(--border-gray);
+  font-size: 16px;
+  font-weight: 700;
+  background-color: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.secondary-btn:hover {
+  background-color: #f1f5f9;
+  color: var(--text-slate);
+  border-color: var(--text-slate);
+}
+
+.secondary-btn:active {
+  transform: scale(0.98);
+}
+
 .quiz-btn {
   width: 100%;
   padding: 16px 20px;
@@ -192,22 +205,30 @@ input[type="date"]:focus {
   border-color: var(--action-blue);
 }
 
+textarea {
+  border: 1px solid var(--border-gray);
+  background: #fdfdfd;
+  color: var(--text-slate);
+  font-size: 14px;
+  line-height: 1.5;
+  resize: none;
+}
+
 /* --- RESULTS & FLAGS --- */
-/* --- RESULTS & FLAGS (The Red Violation Fix) --- */
 .flag-item {
-  border-left: 4px solid #ef4444; /* Alert Red */
-  background: #fef2f2;           /* Very light red tint */
+  border-left: 4px solid #ef4444;
+  background: #fef2f2;
   padding: 16px;
   margin: 12px 0;
   border-radius: 0 12px 12px 0;
   font-size: 14px;
-  color: #991b1b;                /* Deep red for readability */
+  color: #991b1b;
   animation: fadeIn 0.5s ease-out;
 }
 
 .flag-item strong {
   display: block;
-  color: #b91c1c;                /* Bold red for the heading */
+  color: #b91c1c;
   margin-bottom: 2px;
   text-transform: uppercase;
   font-size: 12px;
@@ -223,15 +244,6 @@ input[type="date"]:focus {
   text-align: center;
 }
 
-textarea {
-  border: 1px solid var(--border-gray);
-  background: #fdfdfd;
-  color: var(--text-slate);
-  font-size: 14px;
-  line-height: 1.5;
-  resize: none;
-}
-
 /* --- FOOTER --- */
 .legal-footer {
   text-align: center;
@@ -240,6 +252,7 @@ textarea {
   font-size: 12px;
 }
 
+/* --- UTILITY CLASSES --- */
 .hidden {
   display: none !important;
 }
@@ -248,32 +261,4 @@ textarea {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-.card {
-  animation: fadeIn 0.4s ease-out;
-}
-
-/* --- SECONDARY ACTION BUTTON --- */
-.secondary-btn {
-  width: 100%;
-  padding: 18px;
-  border-radius: 16px;
-  border: 2px solid var(--border-gray);
-  font-size: 16px;
-  font-weight: 700;
-  background-color: transparent;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.secondary-btn:hover {
-  background-color: #f1f5f9;
-  color: var(--text-slate);
-  border-color: var(--text-slate);
-}
-
-.secondary-btn:active {
-  transform: scale(0.98);
 }
