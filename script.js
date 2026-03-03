@@ -171,6 +171,9 @@ function handleAnswer(value, nextId) {
 }
 
 // 6. RESULTS (The Fix)
+// ... (Keep sections 1 through 5 as they are)
+
+// 6. RESULTS
 function showResults() {
   document.getElementById("quiz-container").classList.add("hidden");
   document.getElementById("progress-bar-container").classList.add("hidden");
@@ -184,7 +187,7 @@ function showResults() {
   flagsDiv.innerHTML = "";
   let violations = [];
 
-  // Logic for Deadline
+  // --- RULE CHECKING LOGIC ---
   if (
     answers.q3_received_status === "nothing" ||
     answers.q4_21_day_check === "no"
@@ -194,21 +197,18 @@ function showResults() {
     );
     flagsDiv.innerHTML += `<div class="flag-item"><strong>Deadline Violation:</strong> Landlord missed the 21-day window.</div>`;
   }
-  // Logic for Receipts
   if (answers.q5_receipts === "no") {
     violations.push(
       "Failure to provide receipts for deductions over $125 (§1950.5(g)(2))",
     );
     flagsDiv.innerHTML += `<div class="flag-item"><strong>Evidence Violation:</strong> Required repair receipts were not provided.</div>`;
   }
-  // Logic for Inspection Notice
   if (answers.q6_inspection_notice === "no") {
     violations.push(
       "Failure to notify in writing of right to inspection (§1950.5(f)(1))",
     );
     flagsDiv.innerHTML += `<div class="flag-item"><strong>Process Violation:</strong> No notice of inspection rights given.</div>`;
   }
-  // Logic for Inspection List (The Missing Rule!)
   if (
     answers.q6_inspection_notice === "yes" &&
     answers.q7_inspection_list === "no"
@@ -219,13 +219,29 @@ function showResults() {
     flagsDiv.innerHTML += `<div class="flag-item"><strong>Procedural Violation:</strong> Performed inspection but failed to provide repair list.</div>`;
   }
 
+  // --- DATE FORMATTING ---
+  const dateOptions = { year: "numeric", month: "long", day: "numeric" };
+  const todayFormatted = new Date().toLocaleDateString("en-US", dateOptions);
+
+  // Format the Move-out date (converts YYYY-MM-DD to Month Day, Year)
+  let moveOutFormatted = "[Date]";
+  if (answers.q1_possession) {
+    const [y, m, d] = answers.q1_possession.split("-");
+    moveOutFormatted = new Date(y, m - 1, d).toLocaleDateString(
+      "en-US",
+      dateOptions,
+    );
+  }
+
+  // --- LETTER GENERATION ---
   if (violations.length > 0) {
     letterSection.classList.remove("hidden");
     const vText = violations.map((v) => `* ${v}`).join("\n");
-    letterText.value = `To: [Landlord Name]\nFrom: [Your Name]\nDate: ${new Date().toLocaleDateString()}\n\nRE: Security Deposit Demand (CA Civil Code §1950.5)\n\nDear [Landlord Name],\n\nI am writing regarding the deposit for the property at [Previous Address]. Possession was returned on ${answers.q1_possession}. The following violations were noted:\n\n${vText}\n\nPlease return the full amount of $[Amount] within 10 days. If not resolved, I will seek all legal remedies including statutory damages under §1950.5(l).\n\nSincerely,\n\n[Your Name]`;
+
+    letterText.value = `To: [Landlord Name]\nFrom: [Your Name]\nDate: ${todayFormatted}\n\nRE: Security Deposit Demand (CA Civil Code §1950.5)\n\nDear [Landlord Name],\n\nI am writing regarding the deposit for the property at [Previous Address]. Possession was returned on ${moveOutFormatted}. The following violations were noted:\n\n${vText}\n\nPlease return the full amount of $[Amount] within 10 days. If not resolved, I will seek all legal remedies including statutory damages under §1950.5(l).\n\nSincerely,\n\n[Your Name]`;
   } else {
     flagsDiv.innerHTML =
-      "<p>No procedural violations detected. You can still dispute the validity of charges.</p>";
+      "<p>No significant procedural violations detected. You can still dispute the validity of charges if they seem excessive.</p>";
     letterSection.classList.add("hidden");
   }
   window.scrollTo(0, 0);
@@ -235,9 +251,14 @@ function showResults() {
 function copyLetter() {
   const text = document.getElementById("letter-text");
   text.select();
-  text.setSelectionRange(0, 99999);
-  navigator.clipboard.writeText(text.value);
-  const status = document.getElementById("copy-status");
-  status.innerText = "Copied to clipboard!";
-  setTimeout(() => (status.innerText = ""), 3000);
+  text.setSelectionRange(0, 99999); // Mobile compatibility
+
+  try {
+    navigator.clipboard.writeText(text.value);
+    const status = document.getElementById("copy-status");
+    status.innerText = "Copied to clipboard!";
+    setTimeout(() => (status.innerText = ""), 3000);
+  } catch (err) {
+    alert("Please manually copy the text from the box.");
+  }
 }
