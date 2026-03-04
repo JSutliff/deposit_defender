@@ -262,3 +262,24 @@ textarea {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+#days-counter {
+  transition: color 0.3s ease;
+  font-size: 12px;
+  padding-left: 4px;
+}
+
+/* Final Mobile Date Fix */
+input[type="date"] {
+  color-scheme: light; /* Forces white background on the picker icon */
+  min-height: 60px;
+  padding-top: 28px !important; /* Forces the text down */
+  position: relative;
+  z-index: 1;
+}
+
+.floating-label {
+  z-index: 5 !important; /* Stays above the input */
+  background: white; /* Optional: adds a tiny background to prevent overlap */
+  padding: 0 4px;
+}

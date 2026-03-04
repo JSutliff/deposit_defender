@@ -133,7 +133,7 @@ function renderQuestion() {
     const inputGroup = document.createElement("div");
     inputGroup.className = "input-group";
 
-    // 2. Create the floating label (the "placeholder" fix)
+    // 2. Create the floating label
     const label = document.createElement("label");
     label.className = "floating-label";
     label.innerText = "Move-out Date";
@@ -143,29 +143,71 @@ function renderQuestion() {
     const input = document.createElement("input");
     input.type = "date";
     input.id = "date-input";
-    // Set max to today (March 2026)
     input.setAttribute("max", new Date().toISOString().split("T")[0]);
     input.onclick = (e) => e.target.showPicker();
 
-    // 4. Assemble the input group
+    // 4. Create the real-time counter element
+    const counter = document.createElement("div");
+    counter.id = "days-counter";
+    counter.style.cssText =
+      "font-size: 13px; margin: 10px 0; min-height: 20px; transition: all 0.3s ease;";
+
+    // 5. Logic to update counter in real-time
+    // 5. Logic to update counter in real-time
+    input.oninput = (e) => {
+      if (!e.target.value) {
+        counter.innerText = "";
+        return;
+      }
+
+      // 1. Parse date correctly to avoid UTC timezone shifts
+      const [year, month, day] = e.target.value.split("-").map(Number);
+      const selectedDate = new Date(year, month - 1, day);
+
+      // 2. Get Today at midnight (March 3, 2026)
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      // 3. Calculate difference in full calendar days
+      const diffTime = today - selectedDate;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+      // 4. Update the text based on the 21-day rule
+      if (diffDays > 21) {
+        counter.innerText = `${diffDays} days have passed. (VIOLATION DETECTED)`;
+        counter.style.color = "var(--alert-red)";
+        counter.style.fontWeight = "700";
+      } else if (diffDays < 0) {
+        counter.innerText = "Date cannot be in the future.";
+        counter.style.color = "var(--alert-red)";
+      } else {
+        const daysLeft = 21 - diffDays;
+        counter.innerText = `${diffDays} days passed. Landlord has ${daysLeft} days left to comply.`;
+        counter.style.color = "var(--text-muted)";
+        counter.style.fontWeight = "400";
+      }
+    };
+
+    // 6. Assemble the input group
     inputGroup.appendChild(label);
     inputGroup.appendChild(input);
 
-    // 5. Create the confirm button
+    // 7. Create the confirm button
     const btn = document.createElement("button");
     btn.innerText = "Confirm Date";
     btn.className = "primary-btn";
-    btn.style.marginTop = "10px"; // Spacing from the input group
     btn.onclick = () => {
       const val = document.getElementById("date-input").value;
       if (!val) return alert("Please select a date.");
       handleAnswer(val, q.next);
     };
 
-    // 6. Add everything to the main container
+    // 8. Add everything to the main container
     container.appendChild(inputGroup);
+    container.appendChild(counter); // Injects counter between input and button
     container.appendChild(btn);
   } else {
+    // ... existing logic for button options
     q.options.forEach((opt) => {
       const btn = document.createElement("button");
       btn.innerText = opt.label;
