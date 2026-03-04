@@ -129,22 +129,41 @@ function renderQuestion() {
   container.innerHTML = "";
 
   if (q.type === "date") {
+    // 1. Create the wrapper container
+    const inputGroup = document.createElement("div");
+    inputGroup.className = "input-group";
+
+    // 2. Create the floating label (the "placeholder" fix)
+    const label = document.createElement("label");
+    label.className = "floating-label";
+    label.innerText = "Move-out Date";
+    label.setAttribute("for", "date-input");
+
+    // 3. Create the input
     const input = document.createElement("input");
     input.type = "date";
     input.id = "date-input";
+    // Set max to today (March 2026)
     input.setAttribute("max", new Date().toISOString().split("T")[0]);
     input.onclick = (e) => e.target.showPicker();
 
+    // 4. Assemble the input group
+    inputGroup.appendChild(label);
+    inputGroup.appendChild(input);
+
+    // 5. Create the confirm button
     const btn = document.createElement("button");
     btn.innerText = "Confirm Date";
     btn.className = "primary-btn";
+    btn.style.marginTop = "10px"; // Spacing from the input group
     btn.onclick = () => {
       const val = document.getElementById("date-input").value;
       if (!val) return alert("Please select a date.");
       handleAnswer(val, q.next);
     };
 
-    container.appendChild(input);
+    // 6. Add everything to the main container
+    container.appendChild(inputGroup);
     container.appendChild(btn);
   } else {
     q.options.forEach((opt) => {
